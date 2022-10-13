@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,17 @@ import java.util.List;
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder> {
 
     private List<Trip> trips;
+
+    public interface IClickItemTrip{
+        void updateTrip(Trip trip);
+
+    }
+
+    private IClickItemTrip iClickItemTrip;
+
+    public TripAdapter(IClickItemTrip iClickItemTrip) {
+        this.iClickItemTrip = iClickItemTrip;
+    }
 
     public void setData(List<Trip> list){
         this.trips = list;
@@ -39,7 +51,14 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
         holder.tvTripName.setText(trip.getName());
         holder.tvTripDate.setText(trip.getDate());
         holder.tvTripDestination.setText(trip.getDestination());
-        holder.tvTripRequireAssessment.setText("don't know");
+        if(trip.getRiskAssessment()){
+            holder.tvTripRequireAssessment.setText("Require Assessment: Yes");
+        }
+        else
+        {
+            holder.tvTripRequireAssessment.setText("Require Assessment: No");
+        }
+
 
     }
 
@@ -62,6 +81,14 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
 
         public TripViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Trip trip = trips.get(getAdapterPosition());
+                    iClickItemTrip.updateTrip(trips.get(getAdapterPosition()));
+                }
+            });
 
             tvTripId = itemView.findViewById(R.id.tv_tripId);
             tvTripName = itemView.findViewById(R.id.tv_tripName);

@@ -26,9 +26,8 @@ import com.example.myapplication.R;
 import com.example.myapplication.SQLite.DatabaseHelper;
 import com.example.myapplication.Trip.Trip;
 import com.example.myapplication.Trip.TripAdapter;
+import com.example.myapplication.UpdateTripActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 public class TripFragment extends Fragment {
 
@@ -46,6 +45,7 @@ public class TripFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_trip, container, false);
        setHasOptionsMenu(true);
+       getActivity().setTitle("Trip");
 
 
        return view;
@@ -60,14 +60,19 @@ public class TripFragment extends Fragment {
 
             rcvTrip = view.findViewById(R.id.rcv_trip);
             rcvTrip.setLayoutManager(new LinearLayoutManager(getContext()));
-            tripAdapter = new TripAdapter();
+            tripAdapter = new TripAdapter(new TripAdapter.IClickItemTrip() {
+                @Override
+                public void updateTrip(Trip trip) {
+                    clickUpdateTrip(trip);
+                }
+            });
             rcvTrip.setAdapter(tripAdapter);
 
             btnAdd = view.findViewById(R.id.btn_add_trip);
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    addTrip();
+                    clickAddTrip();
                 }
             });
 
@@ -103,12 +108,18 @@ public class TripFragment extends Fragment {
         tripAdapter.setData(databaseHelper.getTrips());
     }
 
-    private void addTrip() {
-//        long tripId = databaseHelper.insertTrip("danang", "danang", "12/12/2020", "asdasd");
-//        Toast.makeText(getContext(), "Add user successfully", Toast.LENGTH_SHORT).show();
-//        loadData();
+    private void clickAddTrip() {
 
         Intent intent = new Intent(this.getActivity(), AddTripActivity.class);
+        someActivityResultLauncher.launch(intent);
+
+    }
+
+    private void clickUpdateTrip(Trip trip){
+        Intent intent = new Intent(this.getContext(), UpdateTripActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("object_trip", trip);
+        intent.putExtras(bundle);
         someActivityResultLauncher.launch(intent);
 
     }
@@ -121,7 +132,6 @@ public class TripFragment extends Fragment {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-                        Toast.makeText(getContext(), "Add user successfully", Toast.LENGTH_SHORT).show();
                         loadData();
                     }
 

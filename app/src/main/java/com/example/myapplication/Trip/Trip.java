@@ -1,17 +1,21 @@
 package com.example.myapplication.Trip;
 
-public class Trip {
+import java.io.Serializable;
+
+public class Trip implements Serializable {
     private int id;
     private String name;
     private String destination;
     private String date;
+    private Boolean riskAssessment;
     private String description;
 
-    public Trip(int id, String name, String destination, String date, String description) {
+    public Trip(int id, String name, String destination, String date, Boolean riskAssessment, String description) {
         this.id = id;
         this.name = name;
         this.destination = destination;
         this.date = date;
+        this.riskAssessment = riskAssessment;
         this.description = description;
     }
 
@@ -54,6 +58,15 @@ public class Trip {
     public void setId(int id) {
         this.id = id;
     }
+
+    public Boolean getRiskAssessment() {
+        return riskAssessment;
+    }
+
+    public void setRiskAssessment(Boolean riskAssessment) {
+        this.riskAssessment = riskAssessment;
+    }
+
 
 
 }

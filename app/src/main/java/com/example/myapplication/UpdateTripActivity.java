@@ -1,14 +1,14 @@
 package com.example.myapplication;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.SQLite.DatabaseHelper;
+import com.example.myapplication.Trip.Trip;
 
-import java.time.LocalDate;
-
-public class AddTripActivity extends AppCompatActivity {
+public class UpdateTripActivity extends AppCompatActivity {
 
     private EditText edtName;
     private EditText edtDestination;
@@ -29,19 +28,18 @@ public class AddTripActivity extends AppCompatActivity {
     private TextView tvDate;
     private Switch swRiskAssessment;
     private EditText edtDescription;
-    private Button btnAddTrip;
+    private Button btnUpdateTrip;
 
     private DatabaseHelper databaseHelper;
 
-    private Boolean dateIsSelected =false;
-
+    private Trip trip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_trip);
+        setContentView(R.layout.activity_update_trip);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Add Trip");
+        setTitle("Update Trip");
 
         databaseHelper = new DatabaseHelper(this);
 
@@ -51,26 +49,29 @@ public class AddTripActivity extends AppCompatActivity {
         tvDate = findViewById(R.id.tv_trip_date);
         swRiskAssessment = findViewById(R.id.sw_risk_assessment);
         edtDescription = findViewById(R.id.edt_trip_description);
-        btnAddTrip = findViewById(R.id.btn_add_trip);
+        btnUpdateTrip = findViewById(R.id.btn_update_trip);
 
-        btnDatePicker.setOnClickListener(new View.OnClickListener() {
+        btnUpdateTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDatePickerDialog(view);
+                updateTrip();
             }
         });
 
-        btnAddTrip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addTrip();
-            }
-        });
+        trip = (Trip) getIntent().getExtras().get("object_trip");
 
+        if(trip != null){
+            edtName.setText(trip.getName());
+            edtDestination.setText(trip.getDestination());
+            tvDate.setText(trip.getDate());
+            swRiskAssessment.setChecked(trip.getRiskAssessment());
+            edtDescription.setText(trip.getDescription());
+        }
 
     }
 
-    private void addTrip() {
+
+    private void updateTrip() {
         String strName = edtName.getText().toString().trim();
         String strDestination = edtDestination.getText().toString().trim();
         String strDate = tvDate.getText().toString().trim();
@@ -85,38 +86,36 @@ public class AddTripActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter trip destination!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(!dateIsSelected){
-            Toast.makeText(this, "Please select trip date!", Toast.LENGTH_SHORT).show();
-            return;
-        }
         if(strDescription == null || strDescription.length() == 0){
             Toast.makeText(this, "Please enter trip description!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        long tripId = databaseHelper.insertTrip(strName, strDestination, strDate, riskAssessmentChecked, strDescription);
-        Toast.makeText(this, "Add trip successfully", Toast.LENGTH_SHORT).show();
+        trip.setName(strName);
+        trip.setDestination(strDestination);
+        trip.setDate(strDate);
+        trip.setRiskAssessment(riskAssessmentChecked);
+        trip.setDescription(strDescription);
+
+
+        databaseHelper.updateTrip(trip);
+        Toast.makeText(this, "Update trip successfully", Toast.LENGTH_SHORT).show();
 
         Intent intentResult = new Intent();
         setResult(Activity.RESULT_OK, intentResult);
         finish();
-
-    }
-
-    public void showDatePickerDialog(View v){
-        DatePickerFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-
-    public void updateDate(LocalDate date){
-        tvDate.setText(date.toString());
-        dateIsSelected = true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_top, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intentResult = new Intent();
                 setResult(Activity.RESULT_CANCELED, intentResult);
@@ -124,10 +123,18 @@ public class AddTripActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
-            default:break;
+            case R.id.delete:
+                databaseHelper.deleteTrip(trip);
+                Toast.makeText(this, "Delete trip successfully", Toast.LENGTH_SHORT).show();
+                Intent intentDeleteResult = new Intent();
+                setResult(Activity.RESULT_OK, intentDeleteResult);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
-
     }
+
+
+
 }

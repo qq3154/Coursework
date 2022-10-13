@@ -18,13 +18,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private SQLiteDatabase database;
 
     private static final String DATABASE_NAME = "test";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     private static final String TABLE_TRIPS = "trips";
     public static final String TRIP_ID = "trip_id";
     public static final String TRIP_NAME = "trip_name";
     public static final String TRIP_DESTINATION = "trip_destination";
     public static final String TRIP_DATE = "trip_date";
+    public static final String TRIP_RISK_ASSESSMENT = "trip_risk_assessment";
     public static final String TRIP_DESCRIPTION = "trip_description";
 
     private static final String TABLE_EXPENSES = "expenses";
@@ -39,8 +40,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "%s TEXT, " +
                     "%s TEXT, " +
                     "%s TEXT, " +
+                    "%s INTEGER, " +
                     "%s TEXT)",
-            TABLE_TRIPS, TRIP_ID, TRIP_NAME, TRIP_DESTINATION, TRIP_DATE, TRIP_DESCRIPTION
+            TABLE_TRIPS, TRIP_ID, TRIP_NAME, TRIP_DESTINATION, TRIP_DATE, TRIP_RISK_ASSESSMENT, TRIP_DESCRIPTION
     );
 
     private static final String CREATE_TABLE_EXPENSES = String.format(
@@ -90,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Trip> mTrips = new ArrayList<>();
 
         Cursor results = database.query(TABLE_TRIPS,
-                new String[]{TRIP_ID, TRIP_NAME, TRIP_DESTINATION, TRIP_DATE, TRIP_DESCRIPTION},
+                new String[]{TRIP_ID, TRIP_NAME, TRIP_DESTINATION, TRIP_DATE, TRIP_RISK_ASSESSMENT, TRIP_DESCRIPTION},
                 null, null, null, null, TRIP_NAME
         );
         String resultText ="";
@@ -101,9 +103,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String name = results.getString(1);
             String destination = results.getString(2);
             String date = results.getString(3);
-            String description = results.getString(3);
+            int intRiskAssessment = results.getInt(4);
+            String description = results.getString(5);
 
-            Trip trip = new Trip(id, name, destination, date, description);
+            Boolean riskAssessment = intRiskAssessment == 1;
+            Trip trip = new Trip(id, name, destination, date, riskAssessment, description);
             mTrips.add(trip);
 
             results.moveToNext();
@@ -112,20 +116,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return mTrips;
     }
 
-    public long insertTrip(String name, String destination, String date, String description){
+    public long insertTrip(String name, String destination, String date, Boolean riskAssessment, String description){
         ContentValues rowValues = new ContentValues();
 
         rowValues.put(TRIP_NAME, name);
         rowValues.put(TRIP_DESTINATION, destination);
         rowValues.put(TRIP_DATE, date);
+        rowValues.put(TRIP_RISK_ASSESSMENT, riskAssessment);
         rowValues.put(TRIP_DESCRIPTION, description);
 
         return database.insertOrThrow(TABLE_TRIPS, null, rowValues);
     }
 
     public void updateTrip(Trip trip){
-        String DATABASE_UPDATE = String.format("UPDATE %s SET %s = '%s', %s = '%s', %s = '%s', %s = '%s' WHERE %s = %s;",
-                TABLE_TRIPS, TRIP_NAME, trip.getName(), TRIP_DESTINATION, trip.getDestination(), TRIP_DATE, trip.getDate(), TRIP_DESCRIPTION, trip.getDescription(), TRIP_ID, trip.getId());
+        Boolean boolRiskAssessment = trip.getRiskAssessment();
+        int riskAssessment = boolRiskAssessment ? 1 : 0;
+
+
+        String DATABASE_UPDATE = String.format("UPDATE %s SET %s = '%s', %s = '%s', %s = '%s', %s = '%s', %s = '%s' WHERE %s = %s;",
+                TABLE_TRIPS,
+                TRIP_NAME, trip.getName(),
+                TRIP_DESTINATION, trip.getDestination(),
+                TRIP_DATE, trip.getDate(),
+                TRIP_RISK_ASSESSMENT, riskAssessment,
+                TRIP_DESCRIPTION,
+                trip.getDescription(),
+                TRIP_ID, trip.getId());
         database.execSQL(DATABASE_UPDATE);
     }
 
