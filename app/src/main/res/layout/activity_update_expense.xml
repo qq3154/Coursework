@@ -7,31 +7,47 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@color/trip_1"
-    tools:context=".UpdateTripActivity">
+    tools:context=".UpdateExpenseActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name *"
-        android:textSize="20dp"/>
-
-    <EditText
-        android:id="@+id/edt_trip_name"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="16dp"
-        android:layout_marginBottom="10dp"
-        android:hint="Enter trip name" />
+        android:layout_height="69dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/tv_expense_typeSpn"
+            android:layout_width="143dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:text="Expense Type *"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/spn_expense_type"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spn_expense_type"
+            android:layout_width="143dp"
+            android:layout_height="31dp"
+            android:hint="Not pick date yet"
+            android:textSize="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Destination *"
+        android:text="Expense Amount *"
         android:textSize="20dp"/>
 
     <EditText
-        android:id="@+id/edt_trip_destination"
+        android:id="@+id/edt_expense_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/darker_gray"
@@ -42,7 +58,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date *"
+        android:text="Date of the Expense *"
         android:textSize="20dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,13 +75,13 @@
             android:layout_marginEnd="8dp"
             android:drawableEnd="@drawable/calendar_month_fill"
             android:drawablePadding="10dp"
-            android:text="Open"
+            android:text="Date"
             android:textSize="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_trip_date"
+            app:layout_constraintEnd_toStartOf="@+id/tv_expense_date"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_trip_date"
+            android:id="@+id/tv_expense_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="140dp"
@@ -78,47 +94,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Switch
-        android:id="@+id/sw_risk_assessment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Require Risk Assessment:"
-        android:layout_marginBottom="10dp"
-        android:textSize="20dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description *"
-        android:textSize="20dp"/>
-
-    <EditText
-        android:id="@+id/edt_trip_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="16dp"
-        android:layout_marginBottom="10dp"
-        android:hint="Enter trip description" />
-
     <Button
-        android:id="@+id/btn_update_trip"
+        android:id="@+id/btn_update_expense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/design_default_color_on_primary"
         android:textSize="16dp"
         android:text="Update"
         android:layout_marginTop="20dp"
-        android:textColor="@color/white"/>
-
-    <Button
-        android:id="@+id/btn_view_expenses"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/design_default_color_on_primary"
-        android:textSize="16dp"
-        android:text="See all expenses"
-        android:layout_marginTop="70dp"
         android:textColor="@color/white"/>
 
 </LinearLayout>

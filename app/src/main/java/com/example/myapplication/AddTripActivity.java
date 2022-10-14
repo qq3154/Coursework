@@ -86,7 +86,7 @@ public class AddTripActivity extends AppCompatActivity {
             return;
         }
         if(!dateIsSelected){
-            Toast.makeText(this, "Please select trip date!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please select the trip date!", Toast.LENGTH_SHORT).show();
             return;
         }
         if(strDescription == null || strDescription.length() == 0){
@@ -105,7 +105,7 @@ public class AddTripActivity extends AppCompatActivity {
 
     public void showDatePickerDialog(View v){
         DatePickerFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+        newFragment.show(getSupportFragmentManager(), "AddTrip");
     }
 
     public void updateDate(LocalDate date){

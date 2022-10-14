@@ -45,7 +45,7 @@ public class TripFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_trip, container, false);
        setHasOptionsMenu(true);
-       getActivity().setTitle("Trip");
+       getActivity().setTitle("All Trips");
 
 
        return view;
@@ -79,8 +79,6 @@ public class TripFragment extends Fragment {
             loadData();
 
     }
-
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -123,7 +121,6 @@ public class TripFragment extends Fragment {
         someActivityResultLauncher.launch(intent);
 
     }
-
 
     // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(

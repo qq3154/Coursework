@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.example.myapplication.SQLite.DatabaseHelper;
 import com.example.myapplication.Trip.Trip;
 
+import java.time.LocalDate;
+
 public class UpdateTripActivity extends AppCompatActivity {
 
     private EditText edtName;
@@ -29,6 +31,7 @@ public class UpdateTripActivity extends AppCompatActivity {
     private Switch swRiskAssessment;
     private EditText edtDescription;
     private Button btnUpdateTrip;
+    private Button btnViewExpense;
 
     private DatabaseHelper databaseHelper;
 
@@ -50,11 +53,26 @@ public class UpdateTripActivity extends AppCompatActivity {
         swRiskAssessment = findViewById(R.id.sw_risk_assessment);
         edtDescription = findViewById(R.id.edt_trip_description);
         btnUpdateTrip = findViewById(R.id.btn_update_trip);
+        btnViewExpense = findViewById(R.id.btn_view_expenses);
+
+        btnDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(view);
+            }
+        });
 
         btnUpdateTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updateTrip();
+            }
+        });
+
+        btnViewExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewExpense();
             }
         });
 
@@ -68,6 +86,24 @@ public class UpdateTripActivity extends AppCompatActivity {
             edtDescription.setText(trip.getDescription());
         }
 
+    }
+
+    public void showDatePickerDialog(View v){
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "UpdateTrip");
+    }
+
+    public void updateDate(LocalDate date){
+        tvDate.setText(date.toString());
+        //dateIsSelected = true;
+    }
+
+    private void viewExpense() {
+        Intent intent = new Intent(this,ViewExpenseActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("object_trip", trip);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
 

@@ -146,14 +146,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void deleteTrip(Trip trip){
+
+        //delete all expenses by that trip first
+        String DATABASE_DELETE_EXPENSES = String.format("DELETE FROM %s  WHERE %s = %s;",
+                TABLE_EXPENSES, TRIP_ID, trip.getId());
+        database.execSQL(DATABASE_DELETE_EXPENSES);
+
         String DATABASE_DELETE = String.format("DELETE FROM %s  WHERE %s = %s;",
                 TABLE_TRIPS, TRIP_ID, trip.getId());
         database.execSQL(DATABASE_DELETE);
     }
 
     public void deleteAllTrips(){
-        String DATABASE_DELETE_ALL = String.format("DELETE FROM %s;", TABLE_TRIPS);
-        database.execSQL(DATABASE_DELETE_ALL);
+
+        String DATABASE_DELETE_ALL_EXPENSES = String.format("DELETE FROM %s;", TABLE_EXPENSES);
+        database.execSQL(DATABASE_DELETE_ALL_EXPENSES);
+
+        String DATABASE_DELETE_ALL_TRIPS = String.format("DELETE FROM %s;", TABLE_TRIPS);
+        database.execSQL(DATABASE_DELETE_ALL_TRIPS);
     }
 
     public Boolean checkTripExist(String tripName){

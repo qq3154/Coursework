@@ -1,79 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/teal_700"
+    android:layout_height="100dp"
+    android:background="@color/trip_3"
     android:layout_marginRight="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginBottom="5dp"
-    android:padding="20dp">
+    >
 
 
     <TextView
         android:id="@+id/tv_tripId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="1dp"
-        android:layout_toStartOf="@id/layout1"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:text="ID"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="50dp"
         android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:layout_alignParentStart="true"
+        />
 
     <LinearLayout
         android:id="@+id/layout1"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@id/layout2"
-        android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@id/tv_tripId"
         android:orientation="vertical"
         >
 
         <TextView
             android:id="@+id/tv_tripName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
-            android:text="@string/app_name"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp" />
+            android:layout_height="70dp"
+            android:text="trip name"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_tripDate"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
+            android:text="date"
+            android:gravity="center_vertical"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"/>
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/layout2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
         android:orientation="vertical"
         >
 
         <TextView
             android:id="@+id/tv_tripDestination"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"/>
+            android:layout_height="70dp"
+            android:text="destination:"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"/>
 
         <TextView
             android:id="@+id/tv_tripRequireAssessment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="3dp"
+            android:text="risk assessment"
+            android:gravity="center_vertical"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"/>
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 
 

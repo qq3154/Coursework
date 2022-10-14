@@ -1,6 +1,8 @@
 package com.example.myapplication.Expense;
 
-public class Expense {
+import java.io.Serializable;
+
+public class Expense implements Serializable {
 
     private int id;
     private int tripId;

@@ -10,4 +10,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="color_selected">#8DE629</color>
 
+    <color name="trip_1">#FFE7CC</color>
+    <color name="trip_2">#E1CEB5</color>
+    <color name="trip_3">#083AA9</color>
+    <color name="trip_4">#002E94</color>
+
+
 </resources>

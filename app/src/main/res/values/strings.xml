@@ -3,5 +3,10 @@
     <string name="action_trip">Trip</string>
     <string name="action_search">Search</string>
     <string name="action_upload">Upload</string>
+    <string-array name="expense_type">
+        <item>Food</item>
+        <item>Hotel</item>
+        <item>Transport</item>
+    </string-array>
 
 </resources>

@@ -26,6 +26,36 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         LocalDate date = LocalDate.of(year, ++month, day);
-        ((AddTripActivity)getActivity()).updateDate(date);
+
+        switch (getTag()){
+            case "AddTrip":
+                ((AddTripActivity)getActivity()).updateDate(date);
+                return;
+
+            case "UpdateTrip":
+                ((UpdateTripActivity)getActivity()).updateDate(date);
+                return;
+
+            case "AddExpense":
+                ((AddExpenseActivity)getActivity()).updateDate(date);
+                return;
+
+            case "UpdateExpense":
+                ((UpdateExpenseActivity)getActivity()).updateDate(date);
+                return;
+
+            default:
+                return;
+
+        }
+//        if(getTag().equals("Trip")){
+//            LocalDate date = LocalDate.of(year, ++month, day);
+//            ((AddTripActivity)getActivity()).updateDate(date);
+//        }
+//        if(getTag().equals("Expense")){
+//            LocalDate date = LocalDate.of(year, ++month, day);
+//            ((AddExpenseActivity)getActivity()).updateDate(date);
+//        }
+
     }
 }
