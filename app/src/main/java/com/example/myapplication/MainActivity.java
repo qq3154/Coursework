@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.myapplication.Fragment.SearchFragment;
 import com.example.myapplication.SQLite.DatabaseHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -47,12 +48,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.action_trip:
                         viewPager.setCurrentItem(0);
+                        setTitle("All Trips");
                         break;
                     case R.id.action_search:
                         viewPager.setCurrentItem(1);
+                        setTitle("Search");
                         break;
                     case R.id.action_upload:
                         viewPager.setCurrentItem(2);
+                        setTitle("Upload");
                         break;
 
                 }
@@ -79,12 +83,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (position){
                     case 0:
                         bottomNavigationView.getMenu().findItem(R.id.action_trip).setChecked(true);
+                        setTitle("All Trips");
                         break;
                     case 1:
                         bottomNavigationView.getMenu().findItem(R.id.action_search).setChecked(true);
+                        setTitle("Search");
                         break;
                     case 2:
                         bottomNavigationView.getMenu().findItem(R.id.action_upload).setChecked(true);
+                        setTitle("Upload");
                         break;
 
                 }
