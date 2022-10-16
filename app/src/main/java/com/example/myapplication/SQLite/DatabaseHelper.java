@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.example.myapplication.Expense.Expense;
 import com.example.myapplication.Trip.Trip;
+import com.example.myapplication.Upload.ResponseLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private SQLiteDatabase database;
 
     private static final String DATABASE_NAME = "test";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String TABLE_TRIPS = "trips";
     public static final String TRIP_ID = "trip_id";
@@ -33,6 +34,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String EXPENSE_TYPE = "expense_type";
     public static final String EXPENSE_AMOUNT = "expense_amount";
     public static final String EXPENSE_DATE = "expense_date";
+
+    private static final String TABLE_LOG = "logs";
+    public static final String LOG_ID = "log_id";
+    public static final String LOG_DATE = "log_date";
+    public static final String LOG_DESCRIPTION = "log_description";
 
     private static final String CREATE_TABLE_TRIPS = String.format(
             "CREATE TABLE %s (" +
@@ -56,6 +62,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             TABLE_EXPENSES, EXPENSE_ID, TRIP_ID, EXPENSE_TYPE, EXPENSE_AMOUNT, EXPENSE_DATE, TRIP_ID, TABLE_TRIPS, TRIP_ID
     );
 
+    private static final String CREATE_TABLE_LOGS = String.format(
+            "CREATE TABLE %s (" +
+                    "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "%s TEXT, " +
+                    "%s TEXT)",
+            TABLE_LOG, LOG_ID, LOG_DATE, LOG_DESCRIPTION
+    );
 
 
     public DatabaseHelper(Context context){
@@ -69,6 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.execSQL(CREATE_TABLE_TRIPS);
         sqLiteDatabase.execSQL(CREATE_TABLE_EXPENSES);
+        sqLiteDatabase.execSQL(CREATE_TABLE_LOGS);
     }
 
     @Override
@@ -82,6 +96,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXPENSES);
 
         Log.v(this.getClass().getName(), TABLE_EXPENSES +
+                "database upgrade to version" + newVersion + " - old data lost"
+        );
+
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOG);
+
+        Log.v(this.getClass().getName(), TABLE_LOG +
                 "database upgrade to version" + newVersion + " - old data lost"
         );
 
@@ -246,6 +266,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return false;
+    }
+
+    public List<ResponseLog> getLogs(){
+        List<ResponseLog> logs = new ArrayList<>();
+
+        Cursor results = database.query(TABLE_LOG,
+                new String[]{LOG_ID, LOG_DATE, LOG_DESCRIPTION},
+                null, null, null, null, LOG_ID
+        );
+        String resultText ="";
+
+        results.moveToFirst();
+        while(!results.isAfterLast()){
+            int id = results.getInt(0);
+            String date = results.getString(1);
+            String description = results.getString(2);
+
+
+            ResponseLog log = new ResponseLog(id, date, description);
+            logs.add(log);
+
+            results.moveToNext();
+        }
+
+        return logs;
+    }
+
+    public long insertLog(String date, String description){
+        ContentValues rowValues = new ContentValues();
+
+        rowValues.put(LOG_DATE, date);
+        rowValues.put(LOG_DESCRIPTION, description);
+
+        return database.insertOrThrow(TABLE_LOG, null, rowValues);
+    }
+
+    public void deleteAllLogs(){
+
+        String DATABASE_DELETE_ALL_LOGS = String.format("DELETE FROM %s;", TABLE_LOG);
+        database.execSQL(DATABASE_DELETE_ALL_LOGS);
     }
 
 

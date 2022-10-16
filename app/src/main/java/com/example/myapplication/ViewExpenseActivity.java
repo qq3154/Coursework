@@ -23,6 +23,9 @@ import com.example.myapplication.Trip.Trip;
 import com.example.myapplication.Trip.TripAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViewExpenseActivity extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
@@ -68,7 +71,14 @@ public class ViewExpenseActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        expenseAdapter.setData(databaseHelper.getExpenses());
+        List<Expense> expenses = databaseHelper.getExpenses();
+        List<Expense> expensesOfTrip = new ArrayList<>();
+        for (Expense expense:expenses) {
+            if(expense.getTripId() == trip.getId()){
+                expensesOfTrip.add(expense);
+            }
+        }
+        expenseAdapter.setData(expensesOfTrip);
     }
 
     private void clickAddExpense() {

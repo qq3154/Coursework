@@ -1,13 +1,17 @@
 package com.example.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.myapplication.Fragment.SearchFragment;
 import com.example.myapplication.SQLite.DatabaseHelper;
@@ -27,14 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         dbHelper = new DatabaseHelper(this);
-
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-//        long tripId = dbHelper.insertTrip("Danang", "danang", "1/1/1", "none");
-//        dbHelper.getTrips();
-//        long expenseId = dbHelper.insertExpense("Food", "4.5f", "1/2/3", 1 );
-//        dbHelper.getExpenses();
-
 
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
@@ -58,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
                         viewPager.setCurrentItem(2);
                         setTitle("Upload");
                         break;
-
                 }
                 return true;
             }
@@ -104,6 +99,28 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageScrollStateChanged(state);
             }
         });
+    }
+
+    public void onUpload(Boolean isSuccess, String response){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Upload");
+        if(isSuccess){
+            builder.setTitle("Upload successful!");
+            builder.setMessage(response);
+        }
+        else {
+            builder.setTitle("Upload fail! Please retry");
+            builder.setMessage(response);
+        }
+
+        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 
