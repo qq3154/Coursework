@@ -89,10 +89,6 @@ public class AddTripActivity extends AppCompatActivity {
             Toast.makeText(this, "Please select the trip date!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(strDescription == null || strDescription.length() == 0){
-            Toast.makeText(this, "Please enter trip description!", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         long tripId = databaseHelper.insertTrip(strName, strDestination, strDate, riskAssessmentChecked, strDescription);
         Toast.makeText(this, "Add trip successfully", Toast.LENGTH_SHORT).show();

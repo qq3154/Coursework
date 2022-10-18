@@ -122,10 +122,6 @@ public class UpdateTripActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter trip destination!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(strDescription == null || strDescription.length() == 0){
-            Toast.makeText(this, "Please enter trip description!", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         trip.setName(strName);
         trip.setDestination(strDestination);
