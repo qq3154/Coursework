@@ -103,15 +103,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onUpload(Boolean isSuccess, String response){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Upload");
-        if(isSuccess){
-            builder.setTitle("Upload successful!");
-            builder.setMessage(response);
-        }
-        else {
-            builder.setTitle("Upload fail! Please retry");
-            builder.setMessage(response);
-        }
+        builder.setTitle("Upload Status:");
+        builder.setMessage(response);
 
         builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

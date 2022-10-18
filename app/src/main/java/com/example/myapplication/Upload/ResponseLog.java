@@ -9,11 +9,11 @@ public class ResponseLog {
     public String toString() {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("id= " + id);
+        sb.append("id: " + id);
         sb.append("\n");
-        sb.append("date= " + date);
+        sb.append("date: " + date);
         sb.append("\n");
-        sb.append("description= " + description);
+        sb.append("description: " + description);
         sb.append("\n");
         return sb.toString();
 
