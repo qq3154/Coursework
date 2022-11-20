@@ -99,6 +99,11 @@ public class AddExpenseActivity extends AppCompatActivity {
             return;
         }
 
+        if( amount <= 0){
+            Toast.makeText(this, "Amount less than 0!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if(!dateIsSelected){
             Toast.makeText(this, "Please select the expense date!", Toast.LENGTH_SHORT).show();
             return;

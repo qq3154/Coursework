@@ -53,7 +53,7 @@
         android:textColor="@android:color/black"
         android:textSize="16dp"
         android:layout_marginBottom="10dp"
-        android:hint="Enter trip destination" />
+        android:hint="Enter expense amount" />
 
     <TextView
         android:layout_width="wrap_content"

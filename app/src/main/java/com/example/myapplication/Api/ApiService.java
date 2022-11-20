@@ -26,7 +26,7 @@ public interface ApiService {
     //because the app is run on android emulator and localhost in the emulator refers to the device's own loopback service
     //to access the actual machine we can use 10.0.2.2
     ApiService apiService =  new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:61421/")
+            .baseUrl("http://10.0.3.2:61421/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);

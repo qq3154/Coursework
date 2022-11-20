@@ -132,4 +132,11 @@ public class TripFragment extends Fragment {
 
                 }
     });
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
 }

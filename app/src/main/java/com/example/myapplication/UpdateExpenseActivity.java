@@ -98,6 +98,11 @@ public class UpdateExpenseActivity extends AppCompatActivity {
             return;
         }
 
+        if( amount <= 0){
+            Toast.makeText(this, "Amount less than 0!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
         expense.setType(type);
         expense.setAmount(amount);

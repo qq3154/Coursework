@@ -80,6 +80,9 @@ public class SearchFragment extends Fragment {
 
     private void onClickSearch() {
         String search = edtSearch.getText().toString().trim().toUpperCase();
+        if(search.length() ==0){
+            return;
+        }
         List<Trip> allTrips = databaseHelper.getTrips();
         trips.clear();
 
@@ -104,6 +107,11 @@ public class SearchFragment extends Fragment {
         tripAdapter.setData(trips);
     }
 
+    private void  reloadData(){
+        onClickSearch();
+        loadData();
+    }
+
     private void clickUpdateTrip(Trip trip){
         Intent intent = new Intent(this.getContext(), UpdateTripActivity.class);
         Bundle bundle = new Bundle();
@@ -119,8 +127,15 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-                        loadData();
+                        reloadData();
                     }
                 }
             });
+
+    @Override
+    public void onResume() {
+        reloadData();
+        super.onResume();
+
+    }
 }
